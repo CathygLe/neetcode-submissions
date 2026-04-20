@@ -1,0 +1,33 @@
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        rows = len(grid)
+        cols = len(grid[0])
+
+        directions = [[0, 1], [1, 0] , [-1, 0], [0, -1]]
+
+        count = 0
+
+        def dfs(r,c):
+
+            # base case: visited or out of bounds
+            if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] == 0:
+                return 0
+            
+            # mark visited
+            grid[r][c] = 0
+            area = 1
+
+            for dr, dc in directions:
+                area += dfs(r + dr, c + dc)
+            
+            #all visited
+            return area
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    num = dfs(r,c)
+                    count = max(count, num)
+        return count
+                
+                    
